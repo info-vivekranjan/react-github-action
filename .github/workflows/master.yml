@@ -14,8 +14,22 @@ jobs:
         run: npm ci
       - name: Run test
         run: npm run test
+  lint-check:
+    needs: first-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+      - name: Install node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+      - name: Install Dependencies
+        run: npm ci
+      - name: Run lint check
+        run: npm run lint
   deploy:
-    needs: first-job 
+    needs: lint-check
     runs-on: ubuntu-latest
     steps:
       - name: Get Code
@@ -30,4 +44,3 @@ jobs:
         run: npm run build
       - name: Deploy
         run: echo "Deploying... Demo"
-      
