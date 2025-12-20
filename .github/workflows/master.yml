@@ -1,5 +1,10 @@
 name: react-action
-on: [push, workflow_dispatch] # Multiple event trigger
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
 jobs:
   first-job:
     runs-on: ubuntu-latest
