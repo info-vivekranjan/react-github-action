@@ -1,8 +1,8 @@
 name: Even handlers
 on:
   pull_request:
-  types:
-    - closed
+    types:
+      - closed
   workflow_dispatch:
 jobs:
   event-job:
