@@ -85,3 +85,11 @@ jobs:
           name: build-file
       - name: Deploying
         run: echo "Deploying demo..."
+
+  report:
+    needs: [lint-check, deploy]
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generating report
+        run: echo "Generate report..."
