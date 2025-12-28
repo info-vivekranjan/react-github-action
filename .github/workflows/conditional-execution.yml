@@ -15,11 +15,13 @@ jobs:
         with:
           node-version: 22
       - name: Cache dependencies
+        id: caching
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: node_modules
           key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
       - name: Install dependencies
+        if: steps.caching.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run lint
         run: npm run lint
@@ -34,11 +36,13 @@ jobs:
         with:
           node-version: 22
       - name: Cache dependencies
+        id: caching
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: node_modules
           key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
       - name: Install dependencies
+        if: steps.caching.outputs.cache-hit != 'true'
         run: npm ci
       - name: Run test
         id: test-app
@@ -61,11 +65,13 @@ jobs:
         with:
           node-version: 22
       - name: Cache dependencies
+        id: caching
         uses: actions/cache@v4
         with:
-          path: ~/.npm
+          path: node_modules
           key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
       - name: Install dependencies
+        if: steps.caching.outputs.cache-hit != 'true'
         run: npm ci
       - name: Build App
         run: npm run build
