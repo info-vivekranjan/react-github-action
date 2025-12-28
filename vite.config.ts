@@ -8,5 +8,9 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: ["./src/test/setup.ts"],
     css: true,
+    reporters: ["json", "default"], // Keeps default terminal output + adds JSON
+    outputFile: {
+      json: "./test-report.json" // Generates text.json regardless of pass/fail
+    }
   },
 });
