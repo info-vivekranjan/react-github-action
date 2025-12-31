@@ -85,7 +85,7 @@ jobs:
     needs: build
     uses: ./.github/workflows/reusable.yml
     with:
-      name: input_data_name
+      input_data_name: build-file
 
   report:
     needs: [lint-check, deploy]
