@@ -16,7 +16,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     outputs:
-      outcome: ${{steps.output-id.output.set-result}}
+      outcome: ${{steps.output-id.outputs.set-result}}
     steps:
       - name: Take input data to download artifact
         uses: actions/download-artifact@v5
