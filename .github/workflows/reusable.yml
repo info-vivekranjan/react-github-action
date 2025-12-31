@@ -1,9 +1,20 @@
 name: Reusable
 on:
   workflow_call:
+    inputs:
+      input_data_name:
+        required: false
+        description: This is used to take input from other files from this Reusable workflow
+        default: dist
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+      - name: Take input data to download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{inputs.input_data_name}}
+      - name: List downloaded artifact
+        run: ls
       - name: Deploy the app
         run: echo "deploying the app..."
