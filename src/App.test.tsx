@@ -5,5 +5,6 @@ describe("App", () => {
   it("renders title", () => {
     render(<App />);
     expect(screen.getByText(/Vite \+ React/i)).toBeInTheDocument();
+    expect(screen.getByText("count is equal to")).toBeInTheDocument();
   });
 });
