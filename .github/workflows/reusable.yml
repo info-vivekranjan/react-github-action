@@ -7,10 +7,16 @@ on:
         description: This is used to take input from other files from this Reusable workflow
         default: dist
         type: string
+    outputs:
+      output_data_name:
+        description: This is used to send out from Reusable workflow
+        value: ${{jobs.deploy.outputs.outcome}}
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    outputs:
+      outcome: ${{steps.output-id.output.set-result}}
     steps:
       - name: Take input data to download artifact
         uses: actions/download-artifact@v5
@@ -18,5 +24,8 @@ jobs:
           name: ${{inputs.input_data_name}}
       - name: List downloaded artifact
         run: ls
+      - name: Out reusable workow
+        id: output-id
+        run: echo "set-result = Result output..." >> $GITHUB_OUTPUT
       - name: Deploy the app
         run: echo "deploying the app..."

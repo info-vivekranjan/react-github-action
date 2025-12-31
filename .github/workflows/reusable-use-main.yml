@@ -86,6 +86,14 @@ jobs:
     uses: ./.github/workflows/reusable.yml
     with:
       input_data_name: build-file
+  
+  print-deply-output:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print deply output
+        run: echo ${{needs.deploy.outputs.output_data_name}}
+
 
   report:
     needs: [lint-check, deploy]
