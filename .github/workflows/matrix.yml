@@ -10,8 +10,14 @@ jobs:
     strategy:
       matrix:
         node-version: [12, 22, 24]
-        oprating-system: ["ubuntu-latest", windows-latest]
-    runs-on: ${{matrix.oprating-system}}
+        operating-system: ["ubuntu-latest", windows-latest]
+        include:
+          - node-version: 23
+            operating-system: ubuntu-latest
+        exclude:
+          - node-version: 12
+            operating-system: [ubuntu-latest, windows-latest]
+    runs-on: ${{matrix.operating-system}}
     steps:
       - name: Get code
         uses: actions/checkout@v6
