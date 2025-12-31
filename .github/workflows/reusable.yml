@@ -6,7 +6,8 @@ on:
         required: false
         description: This is used to take input from other files from this Reusable workflow
         default: dist
-        
+        type: string
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
