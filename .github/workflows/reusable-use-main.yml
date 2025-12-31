@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print deply output
-        run: echo ${{needs.deploy.outputs.output_data_name}}
+        run: echo "${{needs.deploy.outputs.output_data_name}}"
 
 
   report:
