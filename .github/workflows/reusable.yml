@@ -26,6 +26,6 @@ jobs:
         run: ls
       - name: Out reusable workow
         id: output-id
-        run: echo "set-result = Result output..." >> $GITHUB_OUTPUT
+        run: echo "set-result=Result output..." >> $GITHUB_OUTPUT
       - name: Deploy the app
         run: echo "deploying the app..."
