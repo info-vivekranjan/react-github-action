@@ -19,10 +19,11 @@ runs:
       with:
         path: node_modules
         key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
+    - name: cached deps input
+      id: install
+      run: echo "cache_input=${{ inputs.caching }}" >> $GITHUB_OUTPUT
     - name: Install dependencies
       if: steps.caching.outputs.cache-hit != 'true' || inputs.caching != 'true'
-      id: install
       run: |
         npm ci
-        echo "cache_input=${{ inputs.caching }}" >> $GITHUB_OUTPUT
       shell: bash
