@@ -1,8 +1,8 @@
-name: Reusable use main
+name: Conditional Execution
 on:
   push:
     branches:
-      - dev
+      - master
   workflow_dispatch:
 jobs:
   lint-check:
@@ -14,15 +14,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Cache dependencies
-        id: caching
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
-      - name: Install dependencies
-        if: steps.caching.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cached-deps
       - name: Run lint
         run: npm run lint
 
@@ -35,15 +28,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Cache dependencies
-        id: caching
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
-      - name: Install dependencies
-        if: steps.caching.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cached-deps
       - name: Run test
         id: test-app
         run: npm run test
@@ -64,15 +50,8 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Cache dependencies
-        id: caching
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
-      - name: Install dependencies
-        if: steps.caching.outputs.cache-hit != 'true'
-        run: npm ci
+      - name: Load & cache dependencies
+        uses: ./.github/actions/cached-deps
       - name: Build App
         run: npm run build
       - name: Upload arifact files
@@ -83,17 +62,14 @@ jobs:
 
   deploy:
     needs: build
-    uses: ./.github/workflows/reusable.yml
-    with:
-      input_data_name: build-file
-  
-  print-deply-output:
-    needs: deploy
     runs-on: ubuntu-latest
     steps:
-      - name: Print deply output
-        run: echo "${{needs.deploy.outputs.output_data_name}}"
-
+      - name: Download artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: build-file
+      - name: Deploying
+        run: echo "Deploying demo..."
 
   report:
     needs: [lint-check, deploy]
