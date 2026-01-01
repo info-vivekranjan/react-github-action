@@ -15,9 +15,12 @@ jobs:
         with:
           node-version: 22
       - name: Load & cache dependencies
+        id: laod_cache
         uses: ./.github/actions/cached-deps
         with:
           caching: 'true'
+      - name: Take output from action
+        run: echo "Cached output is equal to = ${{steps.laod_cache.outputs.cached-output}}"
       - name: Run lint
         run: npm run lint
 

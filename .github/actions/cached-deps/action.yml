@@ -5,6 +5,10 @@ inputs:
     description: Taking input from parent workflow to check caching is true/false
     required: false
     default: 'false'
+outputs:
+  cached-output:
+    description: Cached input value
+    value: ${{steps.install.outputs.cache_input}}
 runs:
   using: "composite"
   steps:
@@ -17,5 +21,8 @@ runs:
         key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
     - name: Install dependencies
       if: steps.caching.outputs.cache-hit != 'true' || inputs.caching != 'true'
-      run: npm ci
+      id: install
+      run: |
+        npm ci
+        echo "cache_input=${{inputs.caching}}" >> $GITHUB_OUTPUT
       shell: bash
