@@ -1,15 +1,21 @@
 name: "Get & install cached dependencies"
 description: Get and install cached npm dependencies
+inputs:
+  caching:
+    description: Taking input from parent workflow to check caching is true/false
+    required: false
+    default: 'false'
 runs:
   using: "composite"
   steps:
     - name: Cache dependencies
+      if: inputs.caching == 'true'
       id: caching
       uses: actions/cache@v4
       with:
         path: node_modules
         key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
     - name: Install dependencies
-      if: steps.caching.outputs.cache-hit != 'true'
+      if: steps.caching.outputs.cache-hit != 'true' || inputs.caching != 'true'
       run: npm ci
       shell: bash

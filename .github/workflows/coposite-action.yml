@@ -16,6 +16,8 @@ jobs:
           node-version: 22
       - name: Load & cache dependencies
         uses: ./.github/actions/cached-deps
+        with:
+          caching: 'true'
       - name: Run lint
         run: npm run lint
 
@@ -30,6 +32,8 @@ jobs:
           node-version: 22
       - name: Load & cache dependencies
         uses: ./.github/actions/cached-deps
+        with:
+          caching: 'true'
       - name: Run test
         id: test-app
         run: npm run test
@@ -52,6 +56,8 @@ jobs:
           node-version: 22
       - name: Load & cache dependencies
         uses: ./.github/actions/cached-deps
+        with:
+          caching: 'true'
       - name: Build App
         run: npm run build
       - name: Upload arifact files
