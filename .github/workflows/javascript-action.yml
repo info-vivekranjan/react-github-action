@@ -1,8 +1,8 @@
-name: Conditional Execution
+name: JS custom action
 on:
   push:
     branches:
-      - dev
+      - master
   workflow_dispatch:
 jobs:
   lint-check:
@@ -14,13 +14,15 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Load & cache dependencies
-        id: laod_cache
-        uses: ./.github/actions/cached-deps
+      - name: Cache dependencies
+        id: caching
+        uses: actions/cache@v4
         with:
-          caching: 'true'
-      - name: Take output from action
-        run: echo "Cached output is equal to = ${{steps.laod_cache.outputs.cached-output}}"
+          path: node_modules
+          key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.caching.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Run lint
         run: npm run lint
 
@@ -33,10 +35,15 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Load & cache dependencies
-        uses: ./.github/actions/cached-deps
+      - name: Cache dependencies
+        id: caching
+        uses: actions/cache@v4
         with:
-          caching: 'true'
+          path: node_modules
+          key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.caching.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Run test
         id: test-app
         run: npm run test
@@ -57,10 +64,15 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-      - name: Load & cache dependencies
-        uses: ./.github/actions/cached-deps
+      - name: Cache dependencies
+        id: caching
+        uses: actions/cache@v4
         with:
-          caching: 'true'
+          path: node_modules
+          key: npm-dependencies-${{hashFiles('**/package-lock.json')}}
+      - name: Install dependencies
+        if: steps.caching.outputs.cache-hit != 'true'
+        run: npm ci
       - name: Build App
         run: npm run build
       - name: Upload arifact files
@@ -87,3 +99,9 @@ jobs:
     steps:
       - name: Generating report
         run: echo "Generate report..."
+
+  information:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get simple code from js-action
+        uses: ./.github/actions/js-action
