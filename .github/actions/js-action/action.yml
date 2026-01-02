@@ -1,5 +1,21 @@
 name: JS custom action
 description: Learning to add and use custom JS actions
+inputs:
+  test_input_1:
+    description: Taking input for JS action 1
+    required: true
+    default: "test_1"
+  test_input_2:
+    description: Taking input for JS action 2
+    required: true
+    default: "test_2"
+  test_input_3:
+    description: Taking input for JS action 3
+    required: true
+    default: "test_3"
+outputs:
+  output_test:
+    description: Adding output from JS action
 runs:
   using: node20
-  main: 'main.js'
+  main: "main.js"
