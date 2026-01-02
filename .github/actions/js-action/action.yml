@@ -1,5 +1,5 @@
 name: JS custom action
 description: Learning to add and use custom JS actions
 runs:
-  using: node22
+  using: node20
   main: 'main.js'
