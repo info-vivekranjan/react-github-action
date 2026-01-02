@@ -103,5 +103,7 @@ jobs:
   information:
     runs-on: ubuntu-latest
     steps:
+      - name: Get code
+        uses: actions/checkout@v6
       - name: get simple code from js-action
         uses: ./.github/actions/js-action
